@@ -1,17 +1,23 @@
 from flask import Flask, app, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from app.models import db, Book
+from app.auth import auth
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/data_history_book.sqlite'
 
 db.init_app(app)
 
+#app.register_blueprint(auth, url_prefix='/auth')
+
 def config_routes(app):
     @app.route('/')
-    def index():
-        books = Book.query.all()
-        return render_template('index.html', books=books)
+    def login():
+        #books = Book.query.all()
+        return render_template('login.html')
+    
+    # @app.route('index')
+    #     def index():
     
     @app.route('/add_book', methods=['GET', 'POST'])
     def add_book():
