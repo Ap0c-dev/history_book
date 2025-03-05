@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Livros{% endblock %}
+
+{% block content %}
+<h2>📖 Livros Cadastrados</h2>
+
+{% if livros %}
+    <ul>
+        {% for livro in livros %}
+            <li>
+                <strong>{{ livro.titulo }}</strong> - {{ livro.autor }} ({{ livro.ano }})  
+                {% if livro.lido %}
+                    ✅ <em>Já lido</em>
+                {% else %}
+                    ❌ <em>Não lido</em>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhum livro cadastrado ainda.</p>
+{% endif %}
+
+<a href="{{ url_for('add_book') }}">➕ Adicionar um novo livro</a>
+{% endblock %}
