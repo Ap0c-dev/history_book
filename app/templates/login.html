@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Login</title>
 </head>
 <body>
@@ -15,6 +16,7 @@
         <input type="password" id="password" name="password" required>
         
         <button type="submit">Entrar</button>
+        <p>Ainda não tem uma conta? <a href="{{ url_for('auth.register') }}">Cadastre-se</a></p>
     </form>
 
     {% with messages = get_flashed_messages(with_categories=True) %}

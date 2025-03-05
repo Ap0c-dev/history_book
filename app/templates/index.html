@@ -5,12 +5,12 @@
 {% block content %}
 <h2>📖 Livros Cadastrados</h2>
 
-{% if livros %}
+{% if books %}
     <ul>
-        {% for livro in livros %}
+        {% for book in books %}
             <li>
-                <strong>{{ livro.titulo }}</strong> - {{ livro.autor }} ({{ livro.ano }})  
-                {% if livro.lido %}
+                <strong>{{ book.title }}</strong> - {{ book.author }} ({{ book.year }})  
+                {% if book.read %}
                     ✅ <em>Já lido</em>
                 {% else %}
                     ❌ <em>Não lido</em>
