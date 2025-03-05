@@ -11,6 +11,13 @@
             <li>
                 <strong>{{ book.title }}</strong> - {{ book.author }} ({{ book.year }})  
                 {% if book.read %}
+                <br>
+                {% if book.cover_url %}
+                    <img src="{{ book.cover_url }}" alt="Capa do livro" style="width:100px;">
+                {% else %}
+                    <p>Capa não disponível.</p>
+                {% endif %}
+                <p>{{ book.description }}</p> <!-- Exibir descrição -->
                     ✅ <em>Já lido</em>
                 {% else %}
                     ❌ <em>Não lido</em>

@@ -2,6 +2,7 @@ from flask import Flask, app, render_template, request, redirect, url_for, sessi
 from flask_sqlalchemy import SQLAlchemy
 from app.models import User, db, Book
 from app.auth import auth
+from app.utils import get_google_books_info 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/data_history_book.sqlite'
@@ -30,6 +31,8 @@ def config_routes(app):
         
         return render_template('index.html', books=books)
     
+
+
     @app.route('/add_book', methods=['GET', 'POST'])
     def add_book():
         if 'user_id' not in session:
@@ -37,20 +40,41 @@ def config_routes(app):
             return redirect(url_for('auth.login'))
         
         user_id = session['user_id']
-        
+
         if request.method == 'POST':
             title = request.form['title']
-            author = request.form['author']
-            year = request.form['year']
             read = 'read' in request.form
             
-            new_book = Book(title=title, author=author, year=year, read=read, user_id=user_id)
+            book_info = get_google_books_info(title)
+            print(book_info)
+            if book_info:
+                author = book_info["author"]
+                year = book_info["year"]
+                description = book_info["description"]
+                cover_url = book_info["cover_url"]
+            else:
+                author = request.form.get('author', 'Desconhecido')
+                year = request.form.get('year', 'Desconhecido')
+                description = "Nenhuma descrição encontrada."
+                cover_url = None
+
+            new_book = Book(
+                title=title,
+                author=author,
+                year=year,
+                read=read,
+                user_id=user_id,
+                description=description,
+                cover_url=cover_url
+            )
             db.session.add(new_book)
             db.session.commit()
+
             flash('Livro adicionado com sucesso!', 'success')
             return redirect(url_for('index'))
-        
-        return render_template('add_book.html')    
+
+        return render_template('add_book.html')
+
     
 if __name__ == '__main__':
     app.run(debug=True)  

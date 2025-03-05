@@ -23,6 +23,9 @@ class Book(db.Model):
     author = db.Column(db.String(100), nullable=False)
     year = db.Column(db.Integer)
     read = db.Column(db.Boolean, default=False)
+    description = db.Column(db.String(1000), nullable=False)
+    cover_url = db.Column(db.String())
+    
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref='books', lazy=True)
